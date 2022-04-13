@@ -53,13 +53,52 @@ function inicializaCampos() {
 }
 
 function validaCpf() {
-  const cpfDigitado = document.querySelector('#inputCpf').value
+  const valorCpf = document.querySelector('#inputCpf').value;
+  const spanValidade = document.querySelector('#validadeCpf');
 
-  if (cpfDigitado.length < 14)
+  ocultaParagrafos('cpf');
+
+  const validador = new ValidadorCPF(valorCpf);
+
+  mudaValidade(spanValidade, validador.calculaValidade());
+}
+
+function ocultaParagrafos(documento) {
+  documento = primeiraMaiuscula(documento);
+
+  const valorDoc = document.querySelector(`#input${documento}`).value;
+  const resultadoDoc = document.querySelector(`#resultado${documento}`);
+  const avisoDoc = document.querySelector(`#aviso${documento}`);
+  const maxLength = documento === 'Cpf' ? 14 : 18;
+
+  if (valorDoc.length > 0)
+    avisoDoc.classList.remove('hidden');
+  else
+    avisoDoc.classList.add('hidden');
+
+  if (valorDoc.length < maxLength) {
+    resultadoDoc.classList.add('hidden');
     return;
+  }
+  else {
+    avisoDoc.classList.add('hidden');
+    resultadoDoc.classList.remove('hidden');
+  }
+}
 
-  const validador = new ValidadorCPF(cpfDigitado);
+function mudaValidade(campo, validade) {
+  if (validade) {
+    campo.classList.remove('invalido')
+    campo.classList.add('valido')
+    campo.innerText = 'válido';
+  }
+  else {
+    campo.classList.add('invalido')
+    campo.classList.remove('valido')
+    campo.innerText = 'inválido';
+  }
+}
 
-  console.log(validador.calculaValidade());
-
+function primeiraMaiuscula(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }

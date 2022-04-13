@@ -83,6 +83,25 @@ body {
   }
 }
 
+* body main section > div p {
+  width: 100%;
+  font-size: 0.7em;
+}
+
+@media (min-width: 768px) {
+  * body main section > div p {
+    position: absolute;
+  }
+}
+
+* body main section > div .valido {
+  color: #C2FE06;
+}
+
+* body main section > div .invalido {
+  color: #fe7060;
+}
+
 * body main section .inputGroup {
   width: 100%;
 }

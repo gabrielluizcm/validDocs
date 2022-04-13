@@ -61,6 +61,23 @@ body {
           @media (min-width: 768px) {
             margin: 0 1em;
           }
+
+          p {
+            width: 100%;
+            font-size: 0.7em;
+
+            @media (min-width: 768px) {
+              position: absolute;
+            }
+          }
+
+          .valido {
+            color: #C2FE06;
+          }
+
+          .invalido {
+            color: #fe7060;
+          }
         }
 
         .inputGroup {
