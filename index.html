@@ -12,6 +12,7 @@
   <script src='./src/js/mask.js'></script>
   <script src='./src/js/index.js'></script>
   <title>Validador CPF e CNPJ</title>
+  <link rel='icon' href='./assets/images/favicon.svg'>
 </head>
 
 <body>
@@ -33,8 +34,11 @@
           <input type="text" inputmode="numeric" id="inputCpf" class="cpf" />
           </label>
         </div>
-        <p class="hidden">
+        <p id='resultadoCpf' class="hidden">
           O CPF informado é <span id="validadeCpf">N/A</span>
+        </p>
+        <p id='avisoCpf' class="hidden">
+          Insira o CPF completo para validar
         </p>
       </div>
       <div id="divCnpj">
@@ -43,7 +47,7 @@
           <input type="text" inputmode="numeric" id="inputCnpj" class='cnpj' />
           </label>
         </div>
-        <p class="hidden">
+        <p id='resultadoCnpj' class="hidden">
           O CNPJ informado é <span id="validadeCnpj">N/A</span>
         </p>
       </div>
