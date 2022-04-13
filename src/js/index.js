@@ -9,7 +9,8 @@ function Validador(string) {
     }
   })
 }
-Validador.prototype.calculaDigito = function (resto) {
+Validador.prototype.calculaDigito = function (total) {
+  const resto = total % 11;
   return resto < 2 ? 0 : 11 - resto;
 }
 
@@ -19,22 +20,74 @@ function ValidadorCPF(string) {
 ValidadorCPF.prototype = Object.create(Validador.prototype);
 ValidadorCPF.prototype.constructor = ValidadorCPF;
 
+ValidadorCPF.prototype.somaTotal = function (array) {
+  const multiplicadorInicial = array.length === 9 ? 10 : 11;
+  return array.reduce((acc, val, index) =>
+    acc += val * (multiplicadorInicial - index), 0);
+}
+
 ValidadorCPF.prototype.calculaValidade = function () {
+  if (this.valor === '0'.repeat(11))
+    return false;
+
   const arrayString = Array.from(this.valor.slice(0, -2));
-  const total1 = arrayString.reduce((acc, val, index) =>
-    acc += val * (10 - index), 0);
-  const resto1 = total1 % 11;
-  const digito1 = this.calculaDigito(resto1);
+  const total1 = this.somaTotal(arrayString);
+  const digito1 = this.calculaDigito(total1);
   arrayString.push(digito1);
 
   // Não calcula o segundo dígito se o primeiro for diferente
   if (this.valor.slice(0, -1) !== arrayString.join(''))
     return false;
 
-  const total2 = arrayString.reduce((acc, val, index) =>
-    acc += val * (11 - index), 0);
-  const resto2 = total2 % 11;
-  const digito2 = this.calculaDigito(resto2);
+  const total2 = this.somaTotal(arrayString);
+  const digito2 = this.calculaDigito(total2);
+  arrayString.push(digito2);
+
+  if (this.valor !== arrayString.join(''))
+    return false;
+
+  return true;
+}
+
+function ValidadorCNPJ(string) {
+  Validador.call(this, string);
+}
+ValidadorCNPJ.prototype = Object.create(Validador.prototype);
+ValidadorCNPJ.prototype.constructor = ValidadorCNPJ;
+
+ValidadorCNPJ.prototype.separaArrayCnpj = function (array, mInicial) {
+  const copiaArray = [...array];
+  const segundaParte = mInicial === 5 ? copiaArray.splice(4) : copiaArray.splice(5);
+  return [copiaArray, segundaParte];
+}
+
+ValidadorCNPJ.prototype.somaTotal = function (array) {
+  const multiplicadorInicial = array.length === 12 ? 5 : 6;
+  const [arr1, arr2] = this.separaArrayCnpj(array, multiplicadorInicial)
+
+  const total1 = arr1.reduce((acc, val, index) =>
+    acc += val * (multiplicadorInicial - index), 0);
+  const total2 = arr2.reduce((acc, val, index) =>
+    acc += val * (9 - index), 0);
+
+  return total1 + total2;
+}
+
+ValidadorCNPJ.prototype.calculaValidade = function () {
+  if (this.valor === '0'.repeat(14))
+    return false;
+
+  const arrayString = Array.from(this.valor.slice(0, -2));
+  const total1 = this.somaTotal(arrayString);
+  const digito1 = this.calculaDigito(total1);
+  arrayString.push(digito1);
+
+  // Não calcula o segundo dígito se o primeiro for diferente
+  if (this.valor.slice(0, -1) !== arrayString.join(''))
+    return false;
+
+  const total2 = this.somaTotal(arrayString);
+  const digito2 = this.calculaDigito(total2);
   arrayString.push(digito2);
 
   if (this.valor !== arrayString.join(''))
@@ -48,17 +101,29 @@ function inicializaCampos() {
   mascaraCnpj();
   document.addEventListener('input', event => {
     if (event.target.id === 'inputCpf')
-      validaCpf();
+      validaCpf(event.target.value);
+    else if (event.target.id === 'inputCnpj')
+      validaCnpj(event.target.value);
   })
 }
 
-function validaCpf() {
-  const valorCpf = document.querySelector('#inputCpf').value;
+function validaCpf(cpf) {
   const spanValidade = document.querySelector('#validadeCpf');
 
   ocultaParagrafos('cpf');
 
-  const validador = new ValidadorCPF(valorCpf);
+  const validador = new ValidadorCPF(cpf);
+
+  mudaValidade(spanValidade, validador.calculaValidade());
+}
+
+function validaCnpj(cnpj) {
+  const spanValidade = document.querySelector('#validadeCnpj');
+
+  if (!ocultaParagrafos('cnpj'))
+    return;
+
+  const validador = new ValidadorCNPJ(cnpj);
 
   mudaValidade(spanValidade, validador.calculaValidade());
 }
@@ -78,12 +143,14 @@ function ocultaParagrafos(documento) {
 
   if (valorDoc.length < maxLength) {
     resultadoDoc.classList.add('hidden');
-    return;
+    return false;
   }
   else {
     avisoDoc.classList.add('hidden');
     resultadoDoc.classList.remove('hidden');
   }
+
+  return true;
 }
 
 function mudaValidade(campo, validade) {
