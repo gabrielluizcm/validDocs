@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link href="./src/scss/index.css" rel="stylesheet">
+  <script src='./src/js/index.js'></script>
+  <title>Validador CPF e CNPJ</title>
+</head>
+
+<body>
+  <header>
+
+  </header>
+
+  <main>
+    <h1>
+      Validador CPF e CNPJ
+    </h1>
+    <p>
+      Digite os códigos nos campos abaixo para verificar sua validade
+    </p>
+    <section>
+      <div id="divCpf">
+        <div class="inputGroup">
+          <label>CPF</label>
+          <input type="text" inputmode="numeric" id="inputCpf" class="cpf" />
+          </label>
+        </div>
+        <p class="hidden">
+          O CPF informado é <span id="validadeCpf">N/A</span>
+        </p>
+      </div>
+      <div id="divCnpj">
+        <div class="inputGroup">
+          <label>CNPJ</label>
+          <input type="text" inputmode="numeric" id="inputCnpj" class='cnpj' />
+          </label>
+        </div>
+        <p class="hidden">
+          O CNPJ informado é <span id="validadeCnpj">N/A</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Desenvolvido por
+    <a href='http://https://github.com/gabrielluizcm/' target="blank">
+      Gabriel Luiz
+    </a>
+  </footer>
+
+</body>
+
+</html>

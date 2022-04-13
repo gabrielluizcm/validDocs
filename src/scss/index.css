@@ -1,0 +1,169 @@
+html,
+body {
+  height: 100%;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: #A12568;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+}
+
+* body {
+  font-size: 1.5em;
+  background-color: #2A0944;
+  width: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+* body header {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+* body main {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #3B185F;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 2em;
+  text-align: center;
+}
+
+* body main * {
+  margin: 5px 0;
+}
+
+* body main h1 {
+  font-size: 2em;
+}
+
+* body main section {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 1em 0;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+@media (min-width: 768px) {
+  * body main section {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin: 2em 0;
+  }
+}
+
+* body main section > div {
+  width: 100%;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  * body main section > div {
+    margin: 0 1em;
+  }
+}
+
+* body main section .inputGroup {
+  width: 100%;
+}
+
+* body main section .inputGroup input,
+* body main section .inputGroup label {
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+* body main section .inputGroup input {
+  width: 100%;
+  background-color: #FEC260;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 1em;
+}
+
+* body main .hidden {
+  display: none;
+  pointer-events: none;
+}
+
+* body footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  font-size: 0.7em;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s;
+  -webkit-animation: fadeIn 0.5s;
+  -moz-animation: fadeIn 0.5s;
+  -o-animation: fadeIn 0.5s;
+  -ms-animation: fadeIn 0.5s;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s;
+  -webkit-animation: fadeOut 0.5s;
+  -moz-animation: fadeOut 0.5s;
+  -o-animation: fadeOut 0.5s;
+  -ms-animation: fadeOut 0.5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/*# sourceMappingURL=index.css.map */
