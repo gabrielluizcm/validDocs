@@ -1,5 +1,5 @@
 
-function mascaraCpf() {
+export function mascaraCpf() {
   const inputsCpf = document.querySelectorAll('.cpf');
 
   inputsCpf.forEach(input => {
@@ -28,7 +28,7 @@ function mascaraCpf() {
   })
 }
 
-function mascaraCnpj() {
+export function mascaraCnpj() {
   const inputsCnpj = document.querySelectorAll('.cnpj');
 
   inputsCnpj.forEach(input => {

@@ -113,7 +113,8 @@ body {
           box-sizing: border-box;
 }
 
-* body main section .inputGroup input {
+* body main section input,
+* body main section button {
   width: 100%;
   background-color: #FEC260;
   border: 1px solid black;
@@ -122,9 +123,43 @@ body {
   font-size: 1em;
 }
 
+* body main section button {
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+}
+
+* body main section button:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+* body main section #divRefresh {
+  width: 50px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
 * body main .hidden {
   display: none;
   pointer-events: none;
+}
+
+* body main #secGeradores input {
+  cursor: default;
+}
+
+* body main #secGeradores input:hover, * body main #secGeradores input:focus {
+  outline: none;
+}
+
+* body main #trocaModos {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.7em;
 }
 
 * body footer {
@@ -132,6 +167,21 @@ body {
   bottom: 10px;
   width: 100%;
   font-size: 0.7em;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 .fade-in {

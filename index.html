@@ -9,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
   <link href="./src/scss/index.css" rel="stylesheet">
-  <script src='./src/js/mask.js'></script>
-  <script src='./src/js/index.js'></script>
+  <script type="module" src='./src/js/index.js'></script>
   <title>Validador CPF e CNPJ</title>
   <link rel='icon' href='./assets/images/favicon.svg'>
 </head>
@@ -27,8 +26,8 @@
     <p>
       Digite os códigos nos campos abaixo para verificar sua validade
     </p>
-    <section>
-      <div id="divCpf">
+    <section id="secValidadores">
+      <div>
         <div class="inputGroup">
           <label>CPF</label>
           <input type="text" inputmode="numeric" id="inputCpf" class="cpf" />
@@ -41,7 +40,7 @@
           Insira o CPF completo para validar
         </p>
       </div>
-      <div id="divCnpj">
+      <div>
         <div class="inputGroup">
           <label>CNPJ</label>
           <input type="text" inputmode="numeric" id="inputCnpj" class='cnpj' />
@@ -55,6 +54,26 @@
         </p>
       </div>
     </section>
+    <section class="hidden" id='secGeradores'>
+      <div>
+        <div class="inputGroup">
+          <label>CPF</label>
+          <input type="text" id="cpfGerado" class="cpf" readonly />
+          </label>
+        </div>
+      </div>
+      <div id='divRefresh'>
+        <button id="geraNovos">&#8635;</button>
+      </div>
+      <div>
+        <div>
+          <label>CNPJ</label>
+          <input type="text" id="cnpjGerado" class='cnpj' readonly />
+          </label>
+        </div>
+      </div>
+    </section>
+    <span id="trocaModos" class="noselect">Precisa gerar documentos?</span>
   </main>
 
   <footer>

@@ -1,120 +1,35 @@
+import { Cpf, Cnpj } from './docsLib.js';
+import { mascaraCpf, mascaraCnpj } from './mask.js';
+
 window.onload = inicializaCampos;
-function Validador(string) {
-  Object.defineProperty(this, 'valor', {
-    get: function () {
-      return string.replace(/\D+/g, '');
-    },
-    set: function (string) {
-      this.valor = string;
-    }
-  })
-}
-Validador.prototype.calculaDigito = function (total) {
-  const resto = total % 11;
-  return resto < 2 ? 0 : 11 - resto;
-}
-
-function ValidadorCPF(string) {
-  Validador.call(this, string);
-}
-ValidadorCPF.prototype = Object.create(Validador.prototype);
-ValidadorCPF.prototype.constructor = ValidadorCPF;
-
-ValidadorCPF.prototype.somaTotal = function (array) {
-  const multiplicadorInicial = array.length === 9 ? 10 : 11;
-  return array.reduce((acc, val, index) =>
-    acc += val * (multiplicadorInicial - index), 0);
-}
-
-ValidadorCPF.prototype.calculaValidade = function () {
-  if (this.valor === '0'.repeat(11))
-    return false;
-
-  const arrayString = Array.from(this.valor.slice(0, -2));
-  const total1 = this.somaTotal(arrayString);
-  const digito1 = this.calculaDigito(total1);
-  arrayString.push(digito1);
-
-  // Não calcula o segundo dígito se o primeiro for diferente
-  if (this.valor.slice(0, -1) !== arrayString.join(''))
-    return false;
-
-  const total2 = this.somaTotal(arrayString);
-  const digito2 = this.calculaDigito(total2);
-  arrayString.push(digito2);
-
-  if (this.valor !== arrayString.join(''))
-    return false;
-
-  return true;
-}
-
-function ValidadorCNPJ(string) {
-  Validador.call(this, string);
-}
-ValidadorCNPJ.prototype = Object.create(Validador.prototype);
-ValidadorCNPJ.prototype.constructor = ValidadorCNPJ;
-
-ValidadorCNPJ.prototype.separaArrayCnpj = function (array, mInicial) {
-  const copiaArray = [...array];
-  const segundaParte = mInicial === 5 ? copiaArray.splice(4) : copiaArray.splice(5);
-  return [copiaArray, segundaParte];
-}
-
-ValidadorCNPJ.prototype.somaTotal = function (array) {
-  const multiplicadorInicial = array.length === 12 ? 5 : 6;
-  const [arr1, arr2] = this.separaArrayCnpj(array, multiplicadorInicial)
-
-  const total1 = arr1.reduce((acc, val, index) =>
-    acc += val * (multiplicadorInicial - index), 0);
-  const total2 = arr2.reduce((acc, val, index) =>
-    acc += val * (9 - index), 0);
-
-  return total1 + total2;
-}
-
-ValidadorCNPJ.prototype.calculaValidade = function () {
-  if (this.valor === '0'.repeat(14))
-    return false;
-
-  const arrayString = Array.from(this.valor.slice(0, -2));
-  const total1 = this.somaTotal(arrayString);
-  const digito1 = this.calculaDigito(total1);
-  arrayString.push(digito1);
-
-  // Não calcula o segundo dígito se o primeiro for diferente
-  if (this.valor.slice(0, -1) !== arrayString.join(''))
-    return false;
-
-  const total2 = this.somaTotal(arrayString);
-  const digito2 = this.calculaDigito(total2);
-  arrayString.push(digito2);
-
-  if (this.valor !== arrayString.join(''))
-    return false;
-
-  return true;
-}
 
 function inicializaCampos() {
   mascaraCpf();
   mascaraCnpj();
+  geraNovosDocs();
   document.addEventListener('input', event => {
     if (event.target.id === 'inputCpf')
       validaCpf(event.target.value);
     else if (event.target.id === 'inputCnpj')
       validaCnpj(event.target.value);
   })
+  document.addEventListener('click', event => {
+    if (event.target.id === 'geraNovos')
+      geraNovosDocs();
+    else if (event.target.id === 'cpfGerado' || event.target.id === 'cnpjGerado')
+      copiaValorDoCampo(event.target)
+    else if (event.target.id === 'trocaModos')
+      trocaModos();
+  })
 }
 
 function validaCpf(cpf) {
   const spanValidade = document.querySelector('#validadeCpf');
 
-  ocultaParagrafos('cpf');
+  if (!ocultaParagrafos('cpf'))
+    return;
 
-  const validador = new ValidadorCPF(cpf);
-
-  mudaValidade(spanValidade, validador.calculaValidade());
+  mudaValidade(spanValidade, Cpf.valida(cpf));
 }
 
 function validaCnpj(cnpj) {
@@ -123,9 +38,7 @@ function validaCnpj(cnpj) {
   if (!ocultaParagrafos('cnpj'))
     return;
 
-  const validador = new ValidadorCNPJ(cnpj);
-
-  mudaValidade(spanValidade, validador.calculaValidade());
+  mudaValidade(spanValidade, Cnpj.valida(cnpj));
 }
 
 function ocultaParagrafos(documento) {
@@ -168,4 +81,47 @@ function mudaValidade(campo, validade) {
 
 function primeiraMaiuscula(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+function geraNovosDocs() {
+  const campoCpf = document.querySelector('#cpfGerado');
+  const campoCnpj = document.querySelector('#cnpjGerado');
+
+  campoCpf.value = Cpf.gera();
+  campoCpf.dispatchEvent(new Event('input'));
+  campoCnpj.value = Cnpj.gera();
+  campoCnpj.dispatchEvent(new Event('input'));
+}
+
+async function copiaValorDoCampo(campo) {
+  campo.select();
+  campo.setSelectionRange(0, 18); // Para celulares
+
+  await window.navigator.clipboard.writeText(campo.value);
+
+  alert('Campo copiado!')
+}
+
+function trocaModos() {
+  const secValidadores = document.querySelector('#secValidadores');
+  const secGeradores = document.querySelector('#secGeradores');
+  const h1 = document.querySelector('h1');
+  const p = h1.nextElementSibling;
+  const spanTroca = document.querySelector('#trocaModos');
+
+  if (secGeradores.classList.contains('hidden')) {
+    secGeradores.classList.remove('hidden');
+    secValidadores.classList.add('hidden');
+    h1.innerText = 'Gerador CPF e CNPJ';
+    p.innerText = 'Clique nos campos para copiar ou no botão para gerar novos valores';
+    spanTroca.innterText = 'Precisa validar documentos?';
+  }
+  else {
+    secGeradores.classList.add('hidden');
+    secValidadores.classList.remove('hidden');
+    h1.innerText = 'Validador CPF e CNPJ';
+    p.innerText = 'Digite os códigos nos campos abaixo para verificar sua validade';
+    spanTroca.innterText = 'Precisa gerar documentos?';
+  }
+
 }
