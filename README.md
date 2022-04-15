@@ -1,5 +1,5 @@
 # validDocs
-Pequeno app em JS para validar números de CPF e CNPJ
+Pequeno app em JS para gerar e validar números de CPF e CNPJ
 
 As classes em *./src/docsLib.js* pode ser reutilizada em outros projetos para
 geração e tratamento de CPFs e CNPJs, assim como as máscaras em *./src/mask.js*
