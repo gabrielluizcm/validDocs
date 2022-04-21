@@ -114,7 +114,7 @@ function trocaModos() {
     secValidadores.classList.add('hidden');
     h1.innerText = 'Gerador CPF e CNPJ';
     p.innerText = 'Clique nos campos para copiar ou no botão para gerar novos valores';
-    spanTroca.innterText = 'Precisa validar documentos?';
+    spanTroca.innerText = 'Precisa validar documentos?';
     document.title = 'Gerador CPF e CNPJ';
   }
   else {
@@ -122,7 +122,7 @@ function trocaModos() {
     secValidadores.classList.remove('hidden');
     h1.innerText = 'Validador CPF e CNPJ';
     p.innerText = 'Digite os códigos nos campos abaixo para verificar sua validade';
-    spanTroca.innterText = 'Precisa gerar documentos?';
+    spanTroca.innerText = 'Precisa gerar documentos?';
     document.title = 'Validador CPF e CNPJ';
   }
 

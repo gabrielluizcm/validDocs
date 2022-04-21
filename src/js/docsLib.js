@@ -39,8 +39,9 @@ export class Cpf extends Validador {
 
   static valida(string) {
     const cpfLimpo = string.replace(/\D+/g, '');
+    const invalidos = this.invalidos();
 
-    if (cpfLimpo === '0'.repeat(11) || cpfLimpo.length !== 11)
+    if (invalidos.includes(cpfLimpo) || cpfLimpo.length !== 11)
       return false;
 
     const array = Array.from(cpfLimpo.slice(0, -2));
@@ -54,6 +55,21 @@ export class Cpf extends Validador {
     array.push(digito2);
 
     return cpfLimpo === array.join('');
+  }
+
+  static invalidos() {
+    return [
+      '0'.repeat(11),
+      '1'.repeat(11),
+      '2'.repeat(11),
+      '3'.repeat(11),
+      '4'.repeat(11),
+      '5'.repeat(11),
+      '6'.repeat(11),
+      '7'.repeat(11),
+      '8'.repeat(11),
+      '9'.repeat(11)
+    ]
   }
 
   static gera() {
